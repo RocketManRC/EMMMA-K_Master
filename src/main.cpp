@@ -18,11 +18,17 @@ touchablePin pins[11];
 uint8_t pinNumbers[] = {15,4,16,3,17,23,18,1,19,0,22};
 
 // notes (17 total) and scales (choose one)
+uint8_t majorscale[] = {2, 2, 1, 2, 2, 2, 1};
+uint8_t minorscale[] = {2, 1, 2, 2, 1, 2, 2};
+uint8_t pentascale[] = {2, 2, 3, 2, 3};
+uint8_t minorpentascale[] = {3, 2, 2, 3, 2};
+uint8_t minorbluesscale[] = {3, 2, 1, 1, 3, 2};
+
 bool notesOn[] = {false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false};
-uint8_t midiValues[] = {60,62,64,65,67,69,71,72,74,76,77,79,81,83,84,86,88}; // C-Maj
+//uint8_t midiValues[] = {60,62,64,65,67,69,71,72,74,76,77,79,81,83,84,86,88}; // C-Maj
 //uint8_t midiValues[] = {60,62,64,67,69,72,74,76,79,81,84,86,88,91,93,96,98}; // C-Pentatonic
 //uint8_t midiValues[] = {60,63,65,67,70,72,75,77,79,82,84,87,89,91,94,96,99}; // C-Minor-Pentatonic
-//uint8_t midiValues[] = {60,62,63,65,67,68,70,72,74,75,77,79,80,82,84,86,87}; // Cm (Corona Antibodies 2)
+uint8_t midiValues[] = {60,62,63,65,67,68,70,72,74,75,77,79,80,82,84,86,87}; // Cm (Corona Antibodies 2)
 //uint8_t midiValues[] = {61,63,64,66,68,69,71,73,75,76,78,80,81,83,85,87,88}; // C#m (Corona Antibodies 3 - Moonlight Sonata)
 
 // Root note offsets for key change
@@ -43,6 +49,12 @@ uint8_t midiValues[] = {60,62,64,65,67,69,71,72,74,76,77,79,81,83,84,86,88}; // 
 #define KEY G - OCTAVE // choose desired key and octave offset here
 
 bool enableBend = false;
+
+void scaleToMidiValues(uint8_t *scale, uint8_t size)
+{
+  for(int i = 1;  i < 17; i++)
+    midiValues[i] = midiValues[i - 1] + scale[(i - 1) % size];
+}
 
 void serial3state()
 {
